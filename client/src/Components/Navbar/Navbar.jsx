@@ -14,6 +14,11 @@ import Avatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import LeftToggle from '../LeftToggle/LeftToggle';
+import { setMode } from '../../state';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { setLogout } from '../../state';
+
 
 
 
@@ -56,37 +61,46 @@ const Navbar = () => {
   const toggleDrawer = (open) => () => {
     setState(open);
   };
-
+  const dispatch = useDispatch();
+  
   
 
   return (
     <AppBar sx={{ backgroundColor: "rgba(39, 11, 96, 0.5)" }} position='sticky' >
       <StyledToolbar>
         <Typography variant='h6' sx={{ display: { xs: "none", md: "block" } }}>
-          LAMA DEV
+          Connectfy
         </Typography>
-        <Pets sx={{ display: { xs: "block", md: "none" } }} onClick={toggleDrawer(true)} />
-        <LeftToggle state={state} setState={setState} />
-        <Search sx={{ display: { xs: "none", sm: "none", md: "flex" } }}><InputBase placeholder='Search...' /></Search>
-        <Typography sx={{ display:{md:"none"}}} >Lam Dev</Typography>
+          <Pets sx={{ display: { xs: "block", md: "none" } }} onClick={toggleDrawer(true)} />
+         <LeftToggle state={state} setState={setState} />
+         <Search sx={{ display: { xs: "none", sm: "none", md: "flex" } }}><InputBase placeholder='Search...' /></Search>
+        <Typography sx={{ display:{md:"none"}}} >Connectify</Typography>
         <Icons>
-          <DarkModeIcon color='white' />
+          <DarkModeIcon onClick={() => dispatch(setMode())} color='white' />
+          <Link to="/chats" style={{ color: 'white' }}>
           <Badge badgeContent={4} color="error">
             <Mail color="white" />
           </Badge>
+          </Link>
+          <Link to="/notifications" style={{ color: 'white' }}>
           <Badge badgeContent={4} color="error">
             <Notification color="white" />
           </Badge>
+          </Link>
           <Avatar sx={{ width: 30, height: 30 }} src='' onClick={e => setOpen(true)} />
         </Icons>
         <MobileIcons>
-          <DarkModeIcon color='white' />
-          <Badge badgeContent={4} color="error">
-            <Mail color="white" />
-          </Badge>
-          <Badge badgeContent={4} color="error">
-            <Notification color="white" />
-          </Badge>
+          <DarkModeIcon color='white'  />
+          <Link to="/chats" style={{ color: 'white' }}>
+            <Badge badgeContent={4} color="error">
+              <Mail color="white" />
+            </Badge>
+          </Link>
+          <Link to="/notificatios" style={{ color: 'white' }}>
+            <Badge badgeContent={4} color="error">
+              <Notification color="white" />
+            </Badge>
+          </Link>
           <Avatar sx={{ width: 30, height: 30 }} src='' onClick={e => setOpen(true)} />
       </MobileIcons>
       </StyledToolbar>
@@ -104,7 +118,7 @@ const Navbar = () => {
           horizontal: 'right',
         }}
       >
-        <MenuItem >Logout</MenuItem>
+        <MenuItem onClick={() => dispatch(setLogout())} >Logout</MenuItem>
         <MenuItem >Profile</MenuItem>
         <MenuItem >My account</MenuItem>
       </Menu>

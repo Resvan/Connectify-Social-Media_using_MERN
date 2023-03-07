@@ -11,6 +11,13 @@ import Post from '../../Components/Post/Post';
 import EditProfile from '../../Components/EditProfile/EditProfile';
 import AddPost from '../../Components/AddPost/AddPost';
 import Edit from '@mui/icons-material/Edit';
+import UploadImage from '../../Components/UploadImage/UploadImage';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from '../../utils/axios';
+import { setPosts } from '../../state';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 
 const CoverPhoto = styled("img")({
   width: "95%",
@@ -39,13 +46,13 @@ const EditCover = styled(Fab)(({ theme }) => ({
 const EditProfilepic = styled(Fab)(({ theme }) => ({
   position: "absolute",
   left: "65%",
-  [theme.breakpoints.up("md")]: {
-    left:"58%"
+  [theme.breakpoints.up("sm")]: {
+    left:"57%"
   }
 }));
 const UserInfoBox = styled(Box)({
-  "&::-webkit-box-shadow": `0px 0px 25px -10px rgba(0, 0, 0, 0.38)`,
-  "&::-moz-box-shadow": `0px 0px 25px -10px rgba(0, 0, 0, 0.38)`,
+  "&::WebkitBoxShadow": `0px 0px 25px -10px rgba(0, 0, 0, 0.38)`,
+  "&::MozBoxShadow": `0px 0px 25px -10px rgba(0, 0, 0, 0.38)`,
   boxShadow: `0px 0px 25px -10px rgba(0, 0, 0, 0.38)`,
   borderRadius: "5%",
   margin: "2rem",
@@ -53,7 +60,36 @@ const UserInfoBox = styled(Box)({
 });
 
 const Profile = () => {
+
   const [editProfile, setEditProfile] = useState(false);
+  const [openImageUpload, setImageUpload] = useState(false)
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts);
+  const token = useSelector((state) => state.token);
+  const user = useSelector((state) => state.user);
+  const { id } = useParams();
+  
+
+
+  const getPosts = async () => {
+    const response = await axios.get(`api/user-post/${id}`, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+    const postData = response.data;
+    dispatch(setPosts({ posts: postData }));
+  }
+
+  useEffect(() => {
+
+    getPosts()
+
+  }, [])
+
+  
+
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between" p={1} spacing={2} >
@@ -65,23 +101,24 @@ const Profile = () => {
             position: "relative",
           }}>
             <CoverPhoto src='https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' alt='cover' />
-            <EditCover size='small'>
+            <EditCover onClick={e => setImageUpload(true)} size='small'>
               <Edit/>
             </EditCover>
-            <ProfilePic src='https://images.pexels.com/photos/14028501/pexels-photo-14028501.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load' alt='profile' />
+            <ProfilePic src={user?.profilePic} alt='profile' />
             <Box sx={{
               position: "relative",
             }} >
-              <EditProfilepic size='small' >
-              <Edit />
+              <EditProfilepic onClick={e => setImageUpload(true)} size='small' >
+                <Edit />
               </EditProfilepic>
+              <UploadImage open={openImageUpload} setOpen={setImageUpload } />
             </Box>
           </Box>
           <Box>
             <UserInfoBox minHeight="max-content">
                 <Box sx={{textAlign:"center", marginTop:"2rem"}}>
                   <Box >
-                  <Typography component="h1" fontWeight={600}>User Name</Typography>
+                  <Typography component="h1" fontWeight={600}>{user?.username}</Typography>
                 </Box>
                 <Stack direction="row" justifyContent="center" spacing={2}>
                   <Typography component="h1" fontWeight={500}>100 Posts</Typography>
@@ -91,12 +128,34 @@ const Profile = () => {
                   <Box sx={{marginTop:"1rem"}}>
                     <Typography variant='p' >Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting industry</Typography>
                   </Box>
-                <Button sx={{ margin: "1rem" }} onClick={e=>setOpen(true)} variant='contained' size='small' >follow</Button>
+                <Button sx={{ margin: "1rem" }} onClick={e => setEditProfile(true)} variant='contained' size='small' >Edit</Button>
                 <EditProfile open={editProfile} setOpen={setEditProfile} />
                 </Box>
             </UserInfoBox>
           </Box>
-          <Post />
+          {
+            posts.map(({
+              _id,
+              content,
+              author,
+              image,
+              likes,
+              comments,
+              createdAt,
+            }) => (
+              <Post
+                key={_id}
+                postId={_id}
+                content={content}
+                author={author}
+                image={image}
+                likes={likes}
+                comments={comments}
+                createdAt={createdAt}
+              />
+            ))
+          }
+          
           <AddPost/>
         </Box>
         <Rightbar />

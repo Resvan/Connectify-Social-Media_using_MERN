@@ -5,8 +5,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material';
 
-const Leftbar = () => {
+const StyledCard = styled(Card)({
+  "&::WebkitBoxShadow": `0px 0px 25px -10px rgba(0, 0, 0, 0.38)`,
+  "&::MozBoxShadow": `0px 0px 25px -10px rgba(0, 0, 0, 0.38)`,
+  boxShadow: `0px 0px 25px -10px rgba(0, 0, 0, 0.38)`,
+});
+
+
+const Rightbar = () => {
   return (
     <Box flex={2}
       sx={{ display: { xs: "none", lg: "block" } }}
@@ -14,8 +22,7 @@ const Leftbar = () => {
       <Box position="fixed">
         <Box>
           <Box>
-            <Card sx={{
-              boxShadow: `-1px 6px 5px 0px rgba(0,0,0,0.40)`,
+            <StyledCard sx={{
               paddingInline:"1rem"
             }}>
               <Typography margin={"0.5rem"} variant='h6' >
@@ -39,15 +46,14 @@ const Leftbar = () => {
                 <Box>
                 </Box>
               </Box>
-            </Card>
+            </StyledCard>
           </Box>
         </Box>
 
         <Box >
           <Box>
-            <Card sx={{
+            <StyledCard sx={{
               marginTop:"1rem",
-              boxShadow: `-1px 6px 5px 0px rgba(0,0,0,0.40)`,
               paddingInline: "1rem"
             }}>
               <Typography margin={"0.5rem"} variant='h6' >
@@ -56,7 +62,7 @@ const Leftbar = () => {
               <Box margin={"0.5rem"} >
                 <Box>
                   <Stack direction="row" >
-                    <Badge color="secondary" overlap="circular" badgeContent=" " variant='dot'>
+                    <Badge color="secondary" overlap="circular" badgeContent=" " >
                       <Avatar />
                     </Badge>
                     <Typography variant='span' margin={1}>
@@ -67,7 +73,7 @@ const Leftbar = () => {
                 <Box>
                 </Box>
               </Box>
-            </Card>
+            </StyledCard>
           </Box>
         </Box>
       </Box>
@@ -75,4 +81,4 @@ const Leftbar = () => {
   );
 }
 
-export default Leftbar
+export default Rightbar
