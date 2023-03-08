@@ -21,7 +21,7 @@ const Message = ({msg}) => {
           }}>
             <Box sx={{
               maxWidth: "75%",
-              width:"min-content",
+              width:"max-content",
               minHeight: "max-content",
               marginTop: "1rem",
               ...(msg?.sender === userId && {
