@@ -48,6 +48,9 @@ const EditProfilepic = styled(Fab)(({ theme }) => ({
   left: "65%",
   [theme.breakpoints.up("sm")]: {
     left:"57%"
+  },
+  [theme.breakpoints.up("xl")]: {
+    left: "53%"
   }
 }));
 const UserInfoBox = styled(Box)({

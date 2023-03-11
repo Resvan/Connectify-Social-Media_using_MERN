@@ -6,3 +6,4 @@ export const signUpPost = "api/signup";
 export const loginPost = "api/login";
 export const submitPost = "api/add-post";
 export const getPost = 'api/getPost';
+export const submitStory = 'api/add-story';

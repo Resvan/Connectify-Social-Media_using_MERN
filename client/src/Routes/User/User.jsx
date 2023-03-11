@@ -15,7 +15,7 @@ import { io } from 'socket.io-client';
 
 const User = () => {
     const currentUser = Boolean(useSelector((state) => state.token));
-    const userId = useSelector((state) => state.user._id);
+    const userId = useSelector((state) => state.user?._id);
     const mode = useSelector((state) => state.mode);
     const darkTheme = createTheme({
         palette: {
@@ -28,11 +28,13 @@ const User = () => {
     useEffect(() => {
         // create a new socket connection if it doesn't exist
         if (!socket.current) {
-            socket.current = io("ws://localhost:7001");
+            socket.current = io("ws://localhost:6001");
         }
-        // send the user id to the server
-        socket.current.emit('add_user', userId);
-
+        
+        if (userId) {
+            // send the user id to the server
+            socket.current.emit('add_user', userId);
+        }
         // cleanup function to close the socket connection
         return () => {
             socket.current.disconnect();

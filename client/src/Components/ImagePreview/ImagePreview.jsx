@@ -23,7 +23,7 @@ const CoverPhoto = styled("img")({
 });
 
 const ImagePreview = ({ open, setOpen, image }) => {
-
+  
   const token = useSelector((state) => state.token);
   const userId = useSelector((state) => state.user?._id);
   const [loading, setLoading] = useState(false);
