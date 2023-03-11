@@ -5,7 +5,6 @@ import TextField from "@mui/material/TextField";
 import List from '@mui/material/List';
 import { useSelector } from 'react-redux';
 import { useEffect, useState, useContext } from 'react';
-import SocketContext from "../../utils/socket";
 import axios from '../../utils/axios';
 import ChatItem from "../ChatItem/ChatItem";
 
@@ -16,17 +15,11 @@ const ChatList = () => {
   const [converstations, setConverstations] = useState([]);
   const userId = useSelector((state) => state.user._id);
   const token = useSelector((state) => state.token);
-  const socket = useContext(SocketContext);
 
   
  
   
-  useEffect(() => {
-    
-    socket.current?.on('get_users', users => {
-      console.log(users);
-    }) 
-  },[])
+  
 
   useEffect(() => {
     const getConverstations = async () => {

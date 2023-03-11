@@ -10,6 +10,10 @@ const storySchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    fileType: {
+        type: String,
+        required: false
+    },
     createdAt: {
         type: Date,
         default: Date.now

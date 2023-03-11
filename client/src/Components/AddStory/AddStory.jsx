@@ -44,6 +44,7 @@ const AddStory = () => {
         const formData = new FormData();
         if (files.length > 0) {
             formData.append('file', files[0]);
+            formData.append('fileType',fileType)
         }
         const response = await axios.post(submitStory, formData, {
             headers: {

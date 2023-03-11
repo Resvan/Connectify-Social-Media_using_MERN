@@ -6,14 +6,12 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
 import React, { useEffect, useRef, useState, useContext} from 'react';
 import UploadImage from "../UploadImage/UploadImage";
 import { useParams } from "react-router-dom";
 import {  useSelector } from "react-redux";
 import axios from '../../utils/axios';
 import Message from "../Message/Message";
-import SocketContext from "../../utils/socket";
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
@@ -22,7 +20,10 @@ import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
+import io from 'socket.io-client';
 
+
+const socket = io.connect("ws://localhost:6001");
 
 const actions = [
     { icon: <FileCopyIcon />, name: 'Copy' },
@@ -45,7 +46,7 @@ const ChatBox = () => {
     const userId = useSelector((state) => state.user._id);
     const token = useSelector((state) => state.token);
     const scrollRef = useRef();
-    const socket = useContext(SocketContext);
+ 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -54,8 +55,7 @@ const ChatBox = () => {
             text: newMessage,
             converstationId: id
         }
-
-        socket.current?.emit('send_message', {
+        socket.emit('sendMessage', {
             senderId: userId,
             receiverId: friendId,
             text: newMessage
@@ -68,7 +68,6 @@ const ChatBox = () => {
                     'Authorization': `Bearer ${token}`,
                 },
             })
-            console.log(res);
             setMessages([...messages, res.data]);
             setNewMessage('');
         } catch (error) {
@@ -77,20 +76,30 @@ const ChatBox = () => {
 
     };
 
+
     useEffect(() => {
-        socket.current?.on('get_message', data => {
+
+        socket.on('getMessage', (data) => {
             setArrivalMessage({
                 sender: data.senderId,
                 text: data.text,
-                createdAt: Date.now(),
-            });
-        });
-    }, []);
+                createdAt: new Date()
+            })
+        })
+    }, [])
 
     useEffect(() => {
         arrivalMessage && friendId === arrivalMessage.sender &&
-            setMessages((prev)=>[...prev,arrivalMessage])
-    },[arrivalMessage])
+            setMessages((prev) => [...prev, arrivalMessage])
+    }, [arrivalMessage])
+
+    useEffect(() => {
+        socket.emit('addUser', userId)
+        socket.on('getUsers', users => {
+
+        })
+    }, [userId])
+
 
     useEffect(() => {
         const getMessags = async () => {
@@ -109,7 +118,6 @@ const ChatBox = () => {
         getMessags();
     }, []);
   
-
     useEffect(() => {
 
         const getUser = async () => {
@@ -130,6 +138,7 @@ const ChatBox = () => {
 
         getUser();
     }, [token])
+
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({behavior:"smooth"})
@@ -172,9 +181,9 @@ const ChatBox = () => {
                 
                     <Box>
                         {messages &&
-                            messages.map((msg) => {
+                            messages.map((msg,index) => {
                                 return (
-                                    <Box ref={scrollRef} key={msg?._id}>
+                                    <Box ref={scrollRef} key={index}>
                                         <Message msg={msg} />
                                     </Box>
                                 ) 
