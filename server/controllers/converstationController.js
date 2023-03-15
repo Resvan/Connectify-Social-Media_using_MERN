@@ -2,10 +2,28 @@ import Converstation from "../models/Converstation.js";
 
 export const createConverstation = async (req, res) => {
     try {
-        const newConverstation = new Converstation({
-            members: [req.body.senderId, req.body.receiverId]
+        const { id } = req.user;
+        const {  friendId } = req.body;
+
+        // Check if there is a conversation already existing between the two members
+        const existingConvo = await Converstation.findOne({
+            members: { $all: [id, friendId] }
         });
+
+        if (existingConvo) {
+            console.log(existingConvo, '--------');
+            return res.status(200).json(existingConvo);
+        }
+
+
+
+        // Create new conversation
+        const newConverstation = new Converstation({
+            members: [id, friendId]
+        });
+
         const savedConverstation = await newConverstation.save();
+        console.log(savedConverstation, '++++++++++++++++')
         res.status(200).json(savedConverstation);
     } catch (error) {
         res.status(500).json(error);

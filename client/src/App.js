@@ -10,7 +10,6 @@ function App() {
   return (
     <div>
       <Routes>
-        
           <Route element={<User />} path='/*' />
         </Routes>
     </div>

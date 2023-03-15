@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import authReducer from "./state";
 import { configureStore } from "@reduxjs/toolkit";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Provider } from "react-redux";
 import {
     persistStore,
@@ -37,7 +38,10 @@ root.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistStore(store)}>
             <BrowserRouter>
-                <App />
+                <GoogleOAuthProvider
+                    clientId={`289852188524-rtu0be8h2i3nr17gg8nmslf0rq7pavlf.apps.googleusercontent.com`}>
+                    <App />
+                </GoogleOAuthProvider>
             </BrowserRouter>
         </PersistGate>
     </Provider>

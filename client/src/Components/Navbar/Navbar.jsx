@@ -15,7 +15,7 @@ import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import LeftToggle from '../LeftToggle/LeftToggle';
 import { setMode } from '../../state';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setLogout } from '../../state';
 
@@ -62,6 +62,7 @@ const Navbar = () => {
     setState(open);
   };
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   
   
 
@@ -87,10 +88,10 @@ const Navbar = () => {
             <Notification color="white" />
           </Badge>
           </Link>
-          <Avatar sx={{ width: 30, height: 30 }} src='' onClick={e => setOpen(true)} />
+          <Avatar   sx={{ width: 30, height: 30 }} src={user?.profilePic} onClick={e => setOpen(true)} />
         </Icons>
         <MobileIcons>
-          <DarkModeIcon color='white'  />
+          <DarkModeIcon onClick={() => dispatch(setMode())} color='white'  />
           <Link to="/chats" style={{ color: 'white' }}>
             <Badge badgeContent={4} color="error">
               <Mail color="white" />
@@ -101,7 +102,7 @@ const Navbar = () => {
               <Notification color="white" />
             </Badge>
           </Link>
-          <Avatar sx={{ width: 30, height: 30 }} src='' onClick={e => setOpen(true)} />
+          <Avatar sx={{ width: 30, height: 30 }} src={user?.profilePic} onClick={e => setOpen(true)} />
       </MobileIcons>
       </StyledToolbar>
       <Menu

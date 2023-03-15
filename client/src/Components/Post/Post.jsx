@@ -7,7 +7,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import Checkbox from '@mui/material/Checkbox';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
@@ -22,6 +21,8 @@ import axios from '../../utils/axios';
 import { setPost } from '../../state/index';
 import { Box } from '@mui/system';
 import TimeAgo from 'timeago.js';
+import { useNavigate } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 const Post = ({
@@ -37,10 +38,11 @@ const Post = ({
     const [commentOpen, setCommentOpen] = useState(false);
     const [comment, setComment] = useState("");
     const token = useSelector((state) => state.token);
-    const loggedInUserId = useSelector((state) => state.user._id);
+    const loggedInUserId = useSelector((state) => state.user?._id);
     const user = useSelector((state) => state.user);
     const [isLiked, setIsLiked] = useState(Boolean(likes[loggedInUserId]));
     const likeCount = Object.keys(likes).length;
+    const navigate = useNavigate();
     const timeago = new TimeAgo()
 
     const patchLike = async (e) => {
@@ -80,11 +82,19 @@ const Post = ({
             }} >
                 <CardHeader
                     avatar={
-                        <Avatar sx={{ bgcolor: "red" }} src={author.profilePic} aria-label="author"/>
+                        <Avatar onClick={() => navigate(`/profile/${author?._id}`)} sx={{ bgcolor: "red" }} src={author.profilePic} aria-label="author"/>
                     }
                     action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon />
+                        <IconButton sx={{
+                            display: "none",
+                            '&:hover': {
+                                display:"flex"
+                            }
+                        }} aria-label="settings">
+                            {
+                                loggedInUserId === author._id &&
+                                <DeleteIcon />
+                            }
                         </IconButton>
                     }
                     title= {author.username}

@@ -14,6 +14,9 @@ import { setLogin } from "../../state/index";
 import axios from '../../utils/axios';
 import { loginPost } from '../../utils/Constants';
 import { toast, Toaster } from "react-hot-toast";
+import { GoogleLogin } from '@react-oauth/google';
+
+
 
 const Login = () => {
 
@@ -56,7 +59,28 @@ const Login = () => {
         setIsSubmitting(false);
 
     };
-
+    const handleGoogleLogin = async (response) => {
+        const data = JSON.stringify({ token: response.credential })
+        axios.post('api/google-login', data, {
+            headers: { "Content-Type": "application/json" },
+        }).then((response) => {
+            dispatch(
+                setLogin({
+                    user: response.data.user,
+                    token: response.data.token,
+                })
+            );
+            navigate('/');
+        })
+            .catch((err) => {
+                console.log(err);
+                ((error) => {
+                    toast.error(error.response.data.msg, {
+                        position: "top-center",
+                    });
+                })(err);
+            });
+    }
 
 
     return (
@@ -161,7 +185,25 @@ const Login = () => {
                                 )}
                             </Formik>
                             <Toaster />
-
+                            <GoogleLogin
+                                onSuccess={response => {
+                                    handleGoogleLogin(response)
+                                    // fetch("http://localhost:6001/api/google-login", {
+                                    //     method: "POST",
+                                    //     headers: {
+                                    //         "Content-Type": "application/json"
+                                    //     },
+                                    //     body: JSON.stringify({ token: response.credential })
+                                    // })
+                                    //     .then(response => response.json())
+                                    //     .then(data => console.log(data))
+                                    //     .catch(error => console.error(error));
+                                }}
+                                onError={() => {
+                                    console.log('Login Failed');
+                                }}
+                                useOneTap
+                            />
                         </Box>
                     </Stack>
                 </Card>

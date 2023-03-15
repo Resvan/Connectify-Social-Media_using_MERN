@@ -5,10 +5,12 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Timeago from 'timeago.js';
+
 
 const Message = ({msg}) => {
   const userId = useSelector((state) => state.user._id);
- 
+  const timeago = new Timeago();
 
   return (
     
@@ -33,10 +35,14 @@ const Message = ({msg}) => {
               borderRadius: "0px 10px 10px 10px",
               padding: "1rem"
             }}>
-              <Typography variant='p' component='p'>
+              <Typography color='black' variant='p' component='p'>
                {msg?.text}
-              </Typography>
-            </Box>
+        </Typography>
+      </Box>
+      <Typography fontSize={11}>
+        {timeago.format(msg?.createdAt)}
+      </Typography>
+      
             {/* <Card sx={{
               width: "75%",
               marginTop: "1rem"

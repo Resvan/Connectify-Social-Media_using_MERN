@@ -23,9 +23,9 @@ const Feed = () => {
       },
     })
     const postData = response.data;
-    console.log(postData);
     dispatch(setPosts({ posts: postData }));
   }
+  
 
   useEffect(() => {
 
@@ -36,7 +36,7 @@ const Feed = () => {
 
   return (
     <Box flex={4}>
-      <Stories />
+        <Stories />
       {
         posts.map(({
           _id,

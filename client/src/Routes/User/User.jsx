@@ -10,6 +10,7 @@ import Profile from '../../Pages/Profile/Profile';
 import Chats from '../../Pages/Chats/Chats';
 import Chat from '../../Pages/Chat/Chat';
 import Notification from '../../Pages/Notification/Notification';
+import VerifyEmail from '../../Pages/VerifyEmail/VerifyEmail';
 
 
 const User = () => {
@@ -70,6 +71,10 @@ const User = () => {
             <Route
                 path="/signup"
                 element={currentUser ? <Navigate to="/" /> : <Signup />}
+            />
+            <Route
+                path='/verify-eamil/:id'
+                element={<VerifyEmail />}
             />
         </Routes>
     );

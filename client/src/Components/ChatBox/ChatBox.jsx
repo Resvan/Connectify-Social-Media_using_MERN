@@ -6,31 +6,17 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
-import React, { useEffect, useRef, useState, useContext} from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import UploadImage from "../UploadImage/UploadImage";
 import { useParams } from "react-router-dom";
 import {  useSelector } from "react-redux";
 import axios from '../../utils/axios';
 import Message from "../Message/Message";
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
-import EditIcon from '@mui/icons-material/Edit';
 import io from 'socket.io-client';
 
 
 const socket = io.connect("ws://localhost:6001");
 
-const actions = [
-    { icon: <FileCopyIcon />, name: 'Copy' },
-    { icon: <SaveIcon />, name: 'Save' },
-    { icon: <PrintIcon />, name: 'Print' },
-    { icon: <ShareIcon />, name: 'Share' },
-];
 
 
 
@@ -196,32 +182,7 @@ const ChatBox = () => {
                     display: "flex",
                     backgroundColor: "#f0f5f5",
                 }}>
-                    <Box sx={{
-                        marginLeft:"1rem",
-                        cursor: "pointer",
-                        position: "relative",
-                        "&:hover": {
-                            backgroundColor: "white",
-                            color: "black",
-                        }
-                    }}
-                        onClick={e => setImageUpload(true)}
-                    >
-                        <SpeedDial
-                            aria-setsize={10}
-                            ariaLabel="SpeedDial openIcon example"
-                            sx={{ position: 'absolute', bottom: 4,  }}
-                            icon={<SpeedDialIcon openIcon={<EditIcon />} />}
-                        >
-                            {actions.map((action) => (
-                                <SpeedDialAction
-                                    key={action.name}
-                                    icon={action.icon}
-                                    tooltipTitle={action.name}
-                                />
-                            ))}
-                        </SpeedDial>
-                    </Box>
+                    
                     <Box sx={{
                         marginLeft:"3rem",
                         height:"3rem",

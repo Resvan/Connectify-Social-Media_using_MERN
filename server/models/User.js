@@ -11,7 +11,6 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
     },
     phone: {
         type: String,
@@ -21,7 +20,11 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
-    friends: [{
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
+    followings: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }],
@@ -29,6 +32,9 @@ const userSchema = mongoose.Schema({
         type: String,
     },
     coverPic: {
+        type: String,
+    },
+    bio: {
         type: String,
     }
 })

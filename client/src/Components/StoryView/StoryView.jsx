@@ -1,40 +1,101 @@
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material';
-import Modal from '@mui/material/Modal';
 import Stories from 'react-insta-stories';
-import React from 'react';
+import Dialog from '@mui/material/Dialog';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Pagination, Navigation } from "swiper";
+import { forwardRef} from 'react';
+// Import Swiper styles
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import AddStory from '../AddStory/AddStory';
 
 
-const StyledModal = styled(Modal)({
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+
+
+
+const Transition = forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const StoryView = ({open, setOpen, stories, index}) => {
-  return (
-      <Box>
-          <StyledModal
-              open={open}
-              onClose={e => setOpen(false)}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-          >
-              <Box sx={{
-                  height: "80vh", width: { sm: '100vw', md: "50vw" }
-              }} bgcolor={"background.default"} color={"text.primary"} p={3} borderRadius={5}>
-                    
-                  <Stories
-                      stories={stories}
-                      defaultInterval={1500}
-                      height="80vh"
-                      width="100%"
-                  />
-              </Box>
-                  
-          </StyledModal>
-      </Box>
-  )
+
+
+const StoryView = ({ open, setOpen, story }) => {
+
+
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const temp = [
+        {
+            url: 'https://res.cloudinary.com/dinc8ztk0/video/upload/v1678527532/Stories/pzsr8j8r0ihgviy8ja62.mp4',
+            duration: 5000,
+            type: "video",
+            header: {
+                heading: 'Mohit Karekar',
+                subheading: 'Posted 30m ago',
+                profileImage: 'https://picsum.photos/100/100',
+            },
+        },
+    ];
+
+    return (
+        <Box>
+
+            <Dialog
+                fullScreen
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={Transition}
+            >
+                <AppBar sx={{ position: 'relative' }}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    {
+                        !story[0] ? <AddStory /> :
+                            <Swiper
+                                effect={"coverflow"}
+                                grabCursor={true}
+                                centeredSlides={true}
+                                slidesPerView={"auto"}
+                                pagination={true}
+                                navigation={true}
+                                modules={[EffectCoverflow, Pagination, Navigation]}
+                                className="mySwiper">
+
+                                <SwiperSlide style={{ display: "flex", justifyContent: "center" }}>
+
+                                    <Stories
+                                        stories={story}
+                                        defaultInterval={1500}
+                                        loop={true}
+                                    />
+                                </SwiperSlide>
+
+                            </Swiper>
+                   }
+                </Box>
+            </Dialog>
+        </Box>
+    )
 }
 
 export default StoryView

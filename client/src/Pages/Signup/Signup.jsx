@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../utils/axios'
 import { signUpPost } from '../../utils/Constants';
+import { Toaster, toast } from 'react-hot-toast';
 
 
 
@@ -52,10 +53,17 @@ const Signup = () => {
                 headers: { "Content-Type": "application/json" },
             })
             .then((response) => {
-                navigate('/login');
+               
+                navigate("/");
+                
             })
             .catch((err) => {
-                console.log(err);
+
+                ((error) => {
+                    toast.error(error.response.data.msg, {
+                        position: "top-center",
+                    });
+                })(err);
             })
         setIsSubmitting(false);
           
@@ -155,7 +163,7 @@ const Signup = () => {
                             color: "white"
                         }}>
                             <Typography fontWeight={500} variant='h2' lineHeight={1} >
-                                Lama Social.
+                                Connectify.
                             </Typography>
                             <Typography variant='p' >
                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
@@ -179,6 +187,7 @@ const Signup = () => {
                                     Login
                                 </Button>
                             </Link>
+                            <Toaster />
                         </Box>
                     </Stack>
                 </Card>

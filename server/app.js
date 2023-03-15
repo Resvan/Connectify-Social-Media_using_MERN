@@ -11,6 +11,7 @@ import MessageRoutes from './routes/messagesRoutes.js';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
+
 /* CONFIGURATION */
 dotenv.config()
 const app = express();
@@ -30,9 +31,15 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 connectDB();
 
+
+
+
+
 app.use('/api', userRoutes);
 app.use('/api/converstation', ConverstationRoutes);
 app.use('/api/message', MessageRoutes);
+
+
 
 let users = []
 

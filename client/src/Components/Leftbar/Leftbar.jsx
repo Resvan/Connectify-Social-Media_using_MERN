@@ -19,7 +19,7 @@ const Leftbar = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userId = useSelector((state) => state.user?._id);
+  const user = useSelector((state) => state.user);
 
 
 
@@ -34,9 +34,9 @@ const Leftbar = () => {
       <Box position='fixed'>
         <List>
           <ListItem>
-            <ListItemButton onClick={() => navigate(`/profile/${userId}`)} >
+            <ListItemButton onClick={() => navigate(`/profile/${user?._id}`)} >
               <ListItemIcon>
-                <Avatar sx={{ width: 30, height: 30 }} />
+                <Avatar src={user?.profilePic} sx={{ width: 30, height: 30 }} />
               </ListItemIcon>
               <ListItemText primary="User" />
             </ListItemButton>

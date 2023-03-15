@@ -18,6 +18,7 @@ import { setLogout } from '../../state';
 
 const LeftToggle = ({ state, setState }) => {
 
+    const user = useSelector(state => state.user);
     const dispatch = useDispatch();
     const toggleDrawer = (open) => () => {
         setState(open);
@@ -35,7 +36,7 @@ const LeftToggle = ({ state, setState }) => {
                 <ListItem>
                     <ListItemButton onClick={() => navigate(`/profile/${userId}`)}>
                         <ListItemIcon>
-                            <Avatar sx={{ width: 30, height: 30 }} />
+                            <Avatar src={user.profilePic} sx={{ width: 30, height: 30 }} />
                         </ListItemIcon>
                         <ListItemText primary="User" />
                     </ListItemButton>

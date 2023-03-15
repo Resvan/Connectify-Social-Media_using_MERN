@@ -5,7 +5,9 @@ const initialState = {
     user: null,
     token: null,
     posts: [],
+    userStories: [],
     messages: [],
+    suggestUsers: [],
 };
 
 export const authSlice = createSlice({
@@ -38,10 +40,16 @@ export const authSlice = createSlice({
         },
         setMessages: (state, action) => {
             state.messages = action.payload.messages;
+        },
+        setUserStories: (state, action) => {
+            state.userStories = action.payload.userStories;
+        },
+        setSuggestedUsers: (state, action) => {
+            state.suggestUsers = action.payload.suggestUsers;
         }
     },
 });
 
-export const { setMode, setLogin, setLogout, setPosts, setPost, setUser, setMessages } =
-    authSlice.actions;
+export const { setMode, setLogin, setLogout, setPosts, setSuggestedUsers,
+                setPost, setUser, setMessages, setUserStories } = authSlice.actions;
 export default authSlice.reducer;

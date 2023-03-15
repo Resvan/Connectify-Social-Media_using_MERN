@@ -4,10 +4,10 @@ import { createConverstation, getConverstation } from "../controllers/converstat
 const router = express.Router();
 
 /* New */
-router.post('/', createConverstation)
+router.post('/', verifyToken, createConverstation)
 
 /* Get user converstation */
-router.get('/:converstationId', getConverstation)
+router.get('/:converstationId', verifyToken, getConverstation)
 
 
 export default router;

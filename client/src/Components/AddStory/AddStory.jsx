@@ -1,16 +1,8 @@
 import Tooltip from '@mui/material/Tooltip';
 import Fab from '@mui/material/Fab';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import ImageIcon from '@mui/icons-material/Image';
 import { Card, CardMedia, styled } from '@mui/material';
 import Add from '@mui/icons-material/Add';
 import React from 'react';
@@ -19,8 +11,8 @@ import { useDropzone } from "react-dropzone";
 import axios from '../../utils/axios';
 import { submitStory } from '../../utils/Constants';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPosts } from "../../state/index";
-
+import { setUserStories } from "../../state/index";
+import TimeAgo from 'timeago.js';
 
 const StyledModal = styled(Modal)({
     display: "flex",
@@ -35,8 +27,9 @@ const AddStory = () => {
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const token = useSelector((state) => state.token);
-    const posts = useSelector((state) => state.posts);
+    const stories = useSelector((state) => state.userStories);
     const dispatch = useDispatch();
+    const timeago = new TimeAgo()
 
 
     const handleSubmit = async () => {
@@ -52,9 +45,19 @@ const AddStory = () => {
                 'Authorization': `Bearer ${token}`,
             }
         })
-        const post = await response.data;
+        const story = await response.data;
+        
+        const formatStory = {
+            url: story.file,
+            type: story?.fileType,
+            header: {
+                heading: story.author.username,
+                subheading: timeago.format(story.createdAt),
+                profileImage: story.author.profilePic,
+            },
+        }
 
-        dispatch(setPosts({ posts: [post, ...posts] }));
+        dispatch(setUserStories({ userStories: [formatStory, ...stories] }));
         setLoading(false);
         setOpen(false);
     };
@@ -79,10 +82,11 @@ const AddStory = () => {
                 title="Add story" sx={{
                     position: "absolute",
                     bottom: 0,
-                    left: 90
+                    width: "2rem",
+                    height: "2rem",
                 }}>
-                <Fab color="primary" size='small' aria-label="add">
-                    <Add />
+                <Fab color="primary" size='small' aria-label="add" >
+                    <Add fontSize='1rem'/>
                 </Fab>
             </Tooltip>
             <StyledModal
