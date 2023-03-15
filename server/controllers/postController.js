@@ -25,6 +25,7 @@ export const createPost = async (req, res) => {
         
         res.status(201).json(populatedPost);
     } catch (error) {
+        console.log(error);
         res.status(404).json({ message: error.message });
     }
 };
