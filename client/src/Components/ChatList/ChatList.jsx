@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import List from '@mui/material/List';
 import { useSelector } from 'react-redux';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import axios from '../../utils/axios';
 import ChatItem from "../ChatItem/ChatItem";
 

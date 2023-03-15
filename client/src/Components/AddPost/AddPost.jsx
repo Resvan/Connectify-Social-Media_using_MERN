@@ -7,9 +7,6 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ImageIcon from '@mui/icons-material/Image';
 import { styled } from '@mui/material';
 import Add from '@mui/icons-material/Add';
@@ -81,6 +78,8 @@ const AddPost = () => {
         }
     });
 
+    const user = useSelector(state => state.user);
+
 
     return (
         <>
@@ -106,9 +105,10 @@ const AddPost = () => {
                     </Typography>
                     <UserBox>
                         <Avatar
+                            src={user?.profilePic}
                             sx={{ width: 30, height: 30 }}
                         />
-                        <Typography fontFamily={500} variant="span">John Doe</Typography>
+                        <Typography fontFamily={500} variant="span">{user?.username }</Typography>
                     </UserBox>
                     <TextField
                         sx={{ width: "100%" }}
@@ -157,10 +157,7 @@ const AddPost = () => {
                         </Box>
                     }
                     <Stack direction="row" gap={1} mt={2} mb={3}>
-                        <EmojiEmotionsIcon color='primary' />
                         <ImageIcon onClick={e => setImgae(!image)} color="secondary" />
-                        <VideoCameraBackIcon color="success" />
-                        <PersonAddIcon color='error' />
                     </Stack>
                     <LoadingButton
                         size="small"

@@ -10,6 +10,7 @@ import Chats from '../../Pages/Chats/Chats';
 import Chat from '../../Pages/Chat/Chat';
 import Notification from '../../Pages/Notification/Notification';
 import VerifyEmail from '../../Pages/VerifyEmail/VerifyEmail';
+import Friends from '../../Pages/Friends/Friends';
 
 
 const User = () => {
@@ -62,6 +63,7 @@ const User = () => {
                 <Route path="/chats" element={<Chats />} />
                 <Route path="/chat/:id/:friendId" element={<Chat />} />
                 <Route path="/notifications" element={<Notification />} />
+                <Route path="/friends" element={<Friends />} />
             </Route>
             <Route
                 path="/login"

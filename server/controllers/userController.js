@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import User from "../models/User.js";
 import cloudinary from '../config/cloudinery.js';
 import { OAuth2Client } from "google-auth-library";
+import Notification from '../models/Notifiaction.js';
 
 
 /* REGISTER USER */
@@ -32,7 +33,6 @@ export const register = async (req, res) => {
 
         
     } catch (err) {
-        console.log(err);
         res.status(500).json({ error: err.message });
     }
 };
@@ -89,19 +89,19 @@ export const addProfilePic = async (req, res) => {
 export const getUserSuggestion = async (req, res) => {
     try {
         const { id } = req.user;
-        const user = await User.findById(id);
-        const followings = user?.followings;
-        let users;
-        if (followings) {
-            users = await User.find({ _id: { $nin: [...followings, id] } });
-        } else {
-            users = await User.find({ _id: { $nin: [ id] } });
-        }
-        
-        res.status(200).json(users)
+
+        const user = await User.findById(id)
+            .lean()
+            .select('followings');
+
+        const followings = user?.followings ?? [];
+
+        const users = await User.find({ _id: { $nin: [...followings, id] } })
+            .lean()
+            .select('username profilePic');
+        res.status(200).json(users);
     } catch (error) {
-        console.log(error);
-        res.status(500).json(error)
+        res.status(500).json(error);
     }
 }
 
@@ -117,6 +117,13 @@ export const followUser = async (req, res) => {
         if (!friend.followers.includes(id)) { // Check if userId is not already in followers
             friend.followers.push(id);
             await friend.save();
+            const notification = new Notification({
+                type: "follow",
+                user: friend._id,
+                friend: id,
+                content: 'Started Following You'
+            })
+            await notification.save();
         }
 
         const user = await User.findById(id);
@@ -162,7 +169,6 @@ export const unFollowUser = async (req, res) => {
         const sugesstions = await User.find({ _id: { $nin: [...updatedUser.followings, id] } });
         res.status(200).json({sugesstions, updatedUser});
     } catch (error) {
-        console.log(error);
         res.status(500).json(error)
     }
 }
@@ -222,8 +228,33 @@ export const googleLogin = async (req, res) => {
             res.status(200).json({ token, user: svedUser })
         }
     } catch (error) {
-        console.log(error)
         res.status(401).json({ success: false, message: "Invalid token" });
     }
 }
 
+
+export const getNotifications = async (req, res)=>{
+    try {
+        const { id } = req.user;
+        const notifiactions = await Notification.find({ user: id })
+            .populate('friend', 'username profilePic')
+            .populate('postId', 'image')
+            .sort({ createdAt: -1 })
+            .exec();
+        res.status(200).json(notifiactions);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
+
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const { id } = req.user;
+        const users = await User.find().select('username profilePic')
+        res.status(200).json(users)
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}

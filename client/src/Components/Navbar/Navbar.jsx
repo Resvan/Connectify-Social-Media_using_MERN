@@ -4,10 +4,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import Mail from "@mui/icons-material/Mail";
-import Pets from "@mui/icons-material/Pets";
 import Notification from '@mui/icons-material/Notifications';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import Avatar from '@mui/material/Avatar';
@@ -18,6 +16,7 @@ import { setMode } from '../../state';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setLogout } from '../../state';
+import Search from '../Search/Search';
 
 
 
@@ -28,12 +27,7 @@ const StyledToolbar = styled(Toolbar)({
   justifyContent: "space-between",
 });
 
-const Search = styled("div")(({ theme }) => ({
-  backgroundColor: "white",
-  padding: "0 10px",
-  borderRadius: "10px",
-  width: "40%"
-}));
+
 
 const Icons = styled(Box)(({ theme }) => ({
   display: "none",
@@ -74,7 +68,7 @@ const Navbar = () => {
         </Typography>
         <Avatar src='https://res.cloudinary.com/dinc8ztk0/image/upload/v1678868414/icons8-connect-150_2_hofymj.png' sx={{ width: 30, height: 30,display: {xs: "block", md: "none" } }} onClick={toggleDrawer(true)} />
          <LeftToggle state={state} setState={setState} />
-         <Search sx={{ display: { xs: "none", sm: "none", md: "flex" } }}><InputBase placeholder='Search...' /></Search>
+         <Search />
         <Typography sx={{ display:{md:"none"}}} >Connectify</Typography>
         <Icons>
           <DarkModeIcon onClick={() => dispatch(setMode())} color='white' />
@@ -120,8 +114,6 @@ const Navbar = () => {
         }}
       >
         <MenuItem onClick={() => dispatch(setLogout())} >Logout</MenuItem>
-        <MenuItem >Profile</MenuItem>
-        <MenuItem >My account</MenuItem>
       </Menu>
     </AppBar>
   );

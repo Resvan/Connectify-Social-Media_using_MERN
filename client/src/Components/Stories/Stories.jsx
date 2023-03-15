@@ -2,9 +2,8 @@ import StoryView from '../StoryView/StoryView';
 import { useEffect, useState } from 'react';
 import AddStory from '../AddStory/AddStory';
 import { getUserStory, getFriendsStories } from '../../utils/Constants';
-import { setUserStories } from '../../state';
 import axios from '../../utils/axios';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import TimeAgo from 'timeago.js';
 import { Avatar,  Box,  Stack, Typography } from '@mui/material';
 
@@ -18,7 +17,6 @@ const Stories = () => {
     const [userStories, setUserStories] = useState([]);
     const [friends, setFriends] = useState([]);
     const [friendSroty, setFrindStories] = useState([]);
-    const dispatch = useDispatch();
     const token = useSelector(state => state.token);
     const timeago = new TimeAgo()
     const getUserStories = async () => {

@@ -34,18 +34,7 @@ const StoryView = ({ open, setOpen, story }) => {
         setOpen(false);
     };
 
-    const temp = [
-        {
-            url: 'https://res.cloudinary.com/dinc8ztk0/video/upload/v1678527532/Stories/pzsr8j8r0ihgviy8ja62.mp4',
-            duration: 5000,
-            type: "video",
-            header: {
-                heading: 'Mohit Karekar',
-                subheading: 'Posted 30m ago',
-                profileImage: 'https://picsum.photos/100/100',
-            },
-        },
-    ];
+   
 
     return (
         <Box>
