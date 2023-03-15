@@ -186,7 +186,7 @@ export const editUserProfile = async (req, res) => {
         res.status(500).json(error)
     }
 }
-const CLIENT_ID = "289852188524-rtu0be8h2i3nr17gg8nmslf0rq7pavlf.apps.googleusercontent.com";
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const  verify = async(client_id, jwtToken)=> {
     const client = new OAuth2Client(client_id);
     // Call the verifyIdToken to
