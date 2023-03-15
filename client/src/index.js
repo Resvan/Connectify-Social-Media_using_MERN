@@ -39,7 +39,7 @@ root.render(
         <PersistGate loading={null} persistor={persistStore(store)}>
             <BrowserRouter>
                 <GoogleOAuthProvider
-                    clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}>
+                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
                     <App />
                 </GoogleOAuthProvider>
             </BrowserRouter>

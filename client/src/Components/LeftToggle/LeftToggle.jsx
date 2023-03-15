@@ -6,12 +6,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Home from '@mui/icons-material/Home';
 import ArticleIcon from '@mui/icons-material/Article';
-import GroupsIcon from '@mui/icons-material/Groups';
 import PersonIcon from '@mui/icons-material/Person';
-import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Avatar from '@mui/material/Avatar';
 import Drawer from '@mui/material/Drawer';
+import EmailIcon from '@mui/icons-material/Email';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { setLogout } from '../../state';
@@ -52,22 +51,12 @@ const LeftToggle = ({ state, setState }) => {
                     </Link>
                 </ListItem>
                 <ListItem>
-                    <Link to="/pages" style={{ textDecoration: 'none', color: "inherit" }}>
+                    <Link to="/chats" style={{ textDecoration: 'none', color: "inherit" }}>
                         <ListItemButton >
                             <ListItemIcon>
-                                <ArticleIcon sx={{ color: "rgb(242, 182, 17)" }} />
+                                <EmailIcon sx={{ color: "rgb(242, 182, 17)" }} />
                             </ListItemIcon>
-                            <ListItemText primary="Pages" />
-                        </ListItemButton>
-                    </Link>
-                </ListItem>
-                <ListItem>
-                    <Link to="/groups" style={{ textDecoration: 'none', color: "inherit" }}>
-                        <ListItemButton  >
-                            <ListItemIcon>
-                                <GroupsIcon sx={{ color: "rgb(237, 113, 5)" }} />
-                            </ListItemIcon>
-                            <ListItemText primary="Groups" />
+                            <ListItemText primary="Chats" />
                         </ListItemButton>
                     </Link>
                 </ListItem>
@@ -78,16 +67,6 @@ const LeftToggle = ({ state, setState }) => {
                                 <PersonIcon sx={{ color: "rgb(4, 191, 4)" }} />
                             </ListItemIcon>
                             <ListItemText primary="Friends" />
-                        </ListItemButton>
-                    </Link>
-                </ListItem>
-                <ListItem >
-                    <Link to="/settings" style={{ textDecoration: 'none', color: "inherit" }}>
-                        <ListItemButton >
-                            <ListItemIcon>
-                                <SettingsIcon sx={{ color: "rgb(219, 63, 24)" }} />
-                            </ListItemIcon>
-                            <ListItemText primary="Settings" />
                         </ListItemButton>
                     </Link>
                 </ListItem>

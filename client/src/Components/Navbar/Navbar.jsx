@@ -72,7 +72,7 @@ const Navbar = () => {
         <Typography variant='h6' sx={{ display: { xs: "none", md: "block" } }}>
           Connectfy
         </Typography>
-          <Pets sx={{ display: { xs: "block", md: "none" } }} onClick={toggleDrawer(true)} />
+        <Avatar src='https://res.cloudinary.com/dinc8ztk0/image/upload/v1678868414/icons8-connect-150_2_hofymj.png' sx={{ width: 30, height: 30,display: {xs: "block", md: "none" } }} onClick={toggleDrawer(true)} />
          <LeftToggle state={state} setState={setState} />
          <Search sx={{ display: { xs: "none", sm: "none", md: "flex" } }}><InputBase placeholder='Search...' /></Search>
         <Typography sx={{ display:{md:"none"}}} >Connectify</Typography>

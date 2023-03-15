@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { Box, createTheme, ThemeProvider } from '@mui/material';
 import { useSelector } from 'react-redux';

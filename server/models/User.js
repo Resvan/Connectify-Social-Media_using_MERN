@@ -14,7 +14,6 @@ const userSchema = mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true
     },
     isActive: {
         type: Boolean,
