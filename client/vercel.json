@@ -1,0 +1,11 @@
+{
+    "buildCommand": "cd client && npm insall && npm build",
+    "outputDirectory":"client/dist",
+    "famework":"create-react-app",
+    "rewrites": [
+        {
+            "source": "/api(.*)",
+            "destination":"/api/app.js"
+        }
+    ]
+}
