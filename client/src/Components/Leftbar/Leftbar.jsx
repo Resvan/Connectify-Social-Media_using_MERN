@@ -36,7 +36,7 @@ const Leftbar = () => {
               <ListItemIcon>
                 <Avatar src={user?.profilePic} sx={{ width: 30, height: 30 }} />
               </ListItemIcon>
-              <ListItemText primary="User" />
+              <ListItemText primary={user?.username} />
             </ListItemButton>
           </ListItem>
           <ListItem>
